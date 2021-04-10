@@ -1,0 +1,26 @@
+<div phx-window-keydown="key_down" style="height: 400px; width: 100%; background-color: black;">
+  <svg style="height: 100%; width: 100%;">
+    <!-- Stars -->
+    <%= for %{position: {x, y}, radius: radius} <- @stars do %>
+        <circle cx="<%= x %>" cy="<%= y %>" r="<%= radius %>" fill="white" />
+    <% end %>
+    <!-- Enemies -->
+    <%= for %{position: {x, y}} <- @enemies do %>
+    <image x="<%= x %>" y="<%= y %>" href="images/enemy.png" />
+    <% end %>
+    <!-- Spaceship -->
+    <image x="<%= elem(@spaceship.position, 0) %>" y="<%= elem(@spaceship.position, 1) %>" href="images/spaceship.png" />
+    <!-- Lasers -->
+    <%= for %{position: {x, y}} <- @lasers do %>
+      <image x="<%= x %>" y="<%= y %>" href="images/laser-01.png" />
+    <% end %>
+    <!-- Missiles -->
+    <%= for %{position: {x, y}, step: step} <- @missiles do %>
+      <image x="<%= x %>" y="<%= y %>" href="images/missile-0<%= step %>.png" />
+    <% end %>
+    <!-- Explosion -->
+    <%= for %{position: {x, y}, step: step} <- @explosions do %>
+      <image x="<%= x %>" y="<%= y %>" href="images/explosion-0<%= step %>.png" />
+    <% end %>
+  </svg>
+</div>
