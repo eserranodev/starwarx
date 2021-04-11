@@ -30,5 +30,5 @@ defmodule Starwarx.Laser.State do
   def inactivate(state), do: %{state | status: :inactive}
 
   @spec move(t) :: t
-  def move(%State{position: {x, y}} = state), do: %{state | position: {x + 10, y}}
+  def move(%State{position: {x, y}} = state), do: %{state | position: {x - 10, y}}
 end

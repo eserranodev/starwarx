@@ -7,15 +7,13 @@ defmodule Starwarx.Laser.Supervisor do
 
   alias Starwarx.{Laser, Laser.State}
 
-  @spaceship_width :starwarx |> Application.compile_env(:spaceship) |> Keyword.fetch!(:width)
-  @spaceship_height :starwarx |> Application.compile_env(:spaceship) |> Keyword.fetch!(:height)
+  @enemy_height :starwarx |> Application.compile_env(:enemy) |> Keyword.fetch!(:height)
 
   def start_link(arg), do: DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
 
   def start_child({x, y}) do
-    x_laser = x + @spaceship_width
-    y_laser = y + @spaceship_height / 2
-    spec = {Laser, id: UUID.uuid1(), position: {x_laser, y_laser}}
+    y_laser = y + @enemy_height / 2
+    spec = {Laser, id: UUID.uuid1(), position: {x, y_laser}}
 
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
