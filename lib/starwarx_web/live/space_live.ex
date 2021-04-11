@@ -2,51 +2,20 @@ defmodule StarwarxWeb.SpaceLive do
   use StarwarxWeb, :live_view
 
   alias Phoenix.LiveView
-  alias Starwarx.Enemy.Supervisor, as: EnemySupervisor
-  alias Starwarx.Explosion.Supervisor, as: ExplosionSupervisor
-  alias Starwarx.Laser.Supervisor, as: LaserSupervisor
-  alias Starwarx.Missile.Supervisor, as: MissileSupervisor
-  alias Starwarx.Spaceship
-  alias Starwarx.Star.Supervisor, as: StarSupervisor
+  alias Starwarx.{Retriever, Spaceship}
 
   @impl LiveView
   def mount(_params, _session, socket) do
     if connected?(socket), do: schedule_update()
 
-    enemies = EnemySupervisor.get_enemies()
-    explosions = ExplosionSupervisor.get_explosions()
-    spaceship = Spaceship.new()
-    stars = StarSupervisor.get_stars()
-
-    {:ok,
-     assign(socket,
-       enemies: enemies,
-       explosions: explosions,
-       lasers: [],
-       missiles: [],
-       spaceship: spaceship,
-       stars: stars
-     )}
+    {:ok, assign(socket, Retriever.retrieve(:initial))}
   end
 
   @impl LiveView
   def handle_info(:update, socket) do
-    enemies = EnemySupervisor.get_enemies()
-    explosions = ExplosionSupervisor.get_explosions()
-    lasers = LaserSupervisor.get_lasers()
-    missiles = MissileSupervisor.get_missiles()
-    stars = StarSupervisor.get_stars()
-
     schedule_update()
 
-    {:noreply,
-     assign(socket,
-       enemies: enemies,
-       explosions: explosions,
-       lasers: lasers,
-       missiles: missiles,
-       stars: stars
-     )}
+    {:noreply, assign(socket, Retriever.retrieve(:started))}
   end
 
   @impl LiveView
