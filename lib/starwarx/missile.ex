@@ -8,7 +8,6 @@ defmodule Starwarx.Missile do
   import Starwarx.Utils, only: [enemy_name: 1, missile_name: 1]
 
   alias __MODULE__.{Chaser, CollisionExplorer, State}
-  alias Starwarx.Enemy
   alias Starwarx.Enemy.State, as: EnemyState
   alias Starwarx.Enemy.Supervisor, as: EnemySupervisor
   alias Starwarx.Explosion.Supervisor, as: ExplosionSupervisor
@@ -19,17 +18,18 @@ defmodule Starwarx.Missile do
   def start_link(opts) do
     id = Keyword.fetch!(opts, :id)
     position = Keyword.fetch!(opts, :position)
+    target_id = Keyword.fetch!(opts, :target_id)
 
-    GenServer.start_link(__MODULE__, {id, position}, name: missile_name(id))
+    GenServer.start_link(__MODULE__, {id, position, target_id}, name: missile_name(id))
   end
 
   def get_state(pid), do: GenServer.call(pid, :get_state)
 
   @impl GenServer
-  def init({id, position}) do
+  def init({id, position, target_id}) do
     schedule_work()
 
-    {:ok, State.new(id, position)}
+    {:ok, State.new(id, position, target_id)}
   end
 
   @impl GenServer
@@ -40,30 +40,8 @@ defmodule Starwarx.Missile do
   end
 
   @impl GenServer
-  def handle_info(:work, %State{target: nil} = state) do
-    with enemies <- EnemySupervisor.get_enemies(),
-         [target | _] <- Enum.sort_by(enemies, &elem(&1.position, 0)) do
-      # Set enemy as target for the missile
-      new_state =
-        state
-        |> State.move_forward()
-        |> State.set_target(enemy_name(target.id))
-        |> State.transition()
-
-      schedule_work()
-
-      {:noreply, new_state}
-    else
-      _ ->
-        schedule_work()
-
-        {:noreply, state}
-    end
-  end
-
-  @impl GenServer
-  def handle_info(:work, %State{target: target} = state) do
-    enemy = Enemy.get_state(target)
+  def handle_info(:work, %State{target_id: target_id} = state) do
+    enemy = EnemySupervisor.get_enemy_by_id(target_id)
 
     case CollisionExplorer.hit?(state, enemy) do
       false ->

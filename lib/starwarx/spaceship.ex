@@ -26,5 +26,7 @@ defmodule Starwarx.Spaceship do
   def move_down(%Spaceship{position: {x, y}} = state), do: %{state | position: {x, y + 5}}
 
   def fire_laser(%Spaceship{position: position}), do: LaserSupervisor.create_laser(position)
-  def fire_missile(%Spaceship{position: position}), do: MissileSupervisor.create_missile(position)
+
+  def fire_missile(%Spaceship{position: position}, target_id),
+    do: MissileSupervisor.create_missile(position, target_id)
 end

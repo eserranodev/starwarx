@@ -9,7 +9,8 @@ defmodule Starwarx.MissileTest do
   setup do
     id = Token.generate()
     position = {200, 350}
-    {:ok, pid} = start_supervised({Missile, id: id, position: position})
+    target_id = Token.generate()
+    {:ok, pid} = start_supervised({Missile, id: id, position: position, target_id: target_id})
 
     %{pid: pid}
   end

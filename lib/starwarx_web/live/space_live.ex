@@ -37,13 +37,13 @@ defmodule StarwarxWeb.SpaceLive do
   end
 
   @impl LiveView
-  def handle_event("key_down", %{"key" => "Enter"}, socket) do
-    Spaceship.fire_missile(socket.assigns.spaceship)
+  def handle_event("key_down", _, socket) do
     {:noreply, assign(socket, [])}
   end
 
   @impl LiveView
-  def handle_event("key_down", _, socket) do
+  def handle_event("fire_missile", %{"id" => target_id}, socket) do
+    Spaceship.fire_missile(socket.assigns.spaceship, target_id)
     {:noreply, assign(socket, [])}
   end
 

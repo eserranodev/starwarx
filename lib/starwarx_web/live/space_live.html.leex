@@ -5,8 +5,8 @@
         <circle cx="<%= x %>" cy="<%= y %>" r="<%= radius %>" fill="white" />
     <% end %>
     <!-- Enemies -->
-    <%= for %{position: {x, y}} <- @enemies do %>
-    <image x="<%= x %>" y="<%= y %>" href="images/enemy.png" />
+    <%= for %{id: id, position: {x, y}} <- @enemies do %>
+    <image phx-click="fire_missile" phx-value-id=<%= id %> x="<%= x %>" y="<%= y %>" href="images/enemy.png" />
     <% end %>
     <!-- Spaceship -->
     <image x="<%= elem(@spaceship.position, 0) %>" y="<%= elem(@spaceship.position, 1) %>" href="images/spaceship.png" />

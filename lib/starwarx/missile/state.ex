@@ -9,25 +9,26 @@ defmodule Starwarx.Missile.State do
   @type position :: {integer, integer}
   @type status :: :active | :inactive
   @type step :: integer
-  @type target :: pid | nil
+  @type target_id :: String.t()
 
   @type t :: %State{
           id: id,
           position: position,
           status: status,
           step: step,
-          target: target
+          target_id: target_id
         }
 
-  defstruct [:id, :position, :status, :step, :target]
+  defstruct [:id, :position, :status, :step, :target_id]
 
-  @spec new(id, position) :: t
-  def new(id, position) do
+  @spec new(id, position, target_id) :: t
+  def new(id, position, target_id) do
     %State{
       id: id,
       position: position,
       status: :active,
-      step: 1
+      step: 1,
+      target_id: target_id
     }
   end
 
@@ -48,9 +49,6 @@ defmodule Starwarx.Missile.State do
 
   @spec step_down(t) :: t
   def step_down(%State{position: {x, y}} = state), do: %{state | position: {x, y + 1}}
-
-  @spec set_target(t, pid) :: t
-  def set_target(%State{} = state, target), do: %{state | target: target}
 
   @spec transition(t) :: t
   def transition(%State{step: 3} = state), do: %{state | step: 1}

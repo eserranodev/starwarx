@@ -25,6 +25,9 @@ defmodule Starwarx.Enemy.Supervisor do
     |> Enum.filter(&active?/1)
   end
 
+  # TBD: Modify get_enemy_by_id/1
+  def get_enemy_by_id(id), do: Enum.find(get_enemies(), &(&1.id == id))
+
   @impl DynamicSupervisor
   def init(_), do: DynamicSupervisor.init(strategy: :one_for_one)
 

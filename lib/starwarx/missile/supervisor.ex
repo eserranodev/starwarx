@@ -12,15 +12,15 @@ defmodule Starwarx.Missile.Supervisor do
 
   def start_link(arg), do: DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
 
-  def start_child({x, y}) do
+  def start_child({x, y}, target_id) do
     x_missile = x + @spaceship_width
     y_missile = y + @spaceship_height / 2
-    spec = {Missile, id: UUID.uuid1(), position: {x_missile, y_missile}}
+    spec = {Missile, id: UUID.uuid1(), position: {x_missile, y_missile}, target_id: target_id}
 
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
 
-  def create_missile(position), do: start_child(position)
+  def create_missile(position, target_id), do: start_child(position, target_id)
 
   def get_missiles do
     __MODULE__
