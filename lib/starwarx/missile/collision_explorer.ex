@@ -19,8 +19,8 @@ defmodule Starwarx.Missile.CollisionExplorer do
         %MissileState{position: {x_missile, y_missile}, status: :active},
         %EnemyState{position: {x_enemy, y_enemy}, status: :active}
       )
-      when is_missile_in_y_axis_hit_range(x_missile, x_enemy) and
-             is_missile_in_x_axis_hit_range(y_missile, y_enemy),
+      when is_missile_in_y_axis_hit_range(y_missile, y_enemy) and
+             is_missile_in_x_axis_hit_range(x_missile, x_enemy),
       do: true
 
   def hit?(_, _), do: false
