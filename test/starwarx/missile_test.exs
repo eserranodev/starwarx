@@ -4,12 +4,11 @@ defmodule Starwarx.MissileTest do
   use ExUnit.Case, async: true
 
   alias Starwarx.{Missile, Missile.State}
-  alias Starwarx.Support.Token
 
   setup do
-    id = Token.generate()
+    id = UUID.uuid1()
     position = {200, 350}
-    target_id = Token.generate()
+    target_id = UUID.uuid1()
     {:ok, pid} = start_supervised({Missile, id: id, position: position, target_id: target_id})
 
     %{pid: pid}

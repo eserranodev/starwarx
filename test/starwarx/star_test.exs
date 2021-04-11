@@ -4,10 +4,9 @@ defmodule Starwarx.StarTest do
   use ExUnit.Case, async: true
 
   alias Starwarx.{Star, Star.State}
-  alias Starwarx.Support.Token
 
   setup do
-    id = Token.generate()
+    id = UUID.uuid1()
     {:ok, pid} = start_supervised({Star, id: id, mode: :initial})
 
     %{pid: pid}

@@ -4,10 +4,9 @@ defmodule Starwarx.EnemyTest do
   use ExUnit.Case, async: true
 
   alias Starwarx.{Enemy, Enemy.State}
-  alias Starwarx.Support.Token
 
   setup do
-    id = Token.generate()
+    id = UUID.uuid1()
     {:ok, pid} = start_supervised({Enemy, id: id})
 
     %{pid: pid}

@@ -4,10 +4,9 @@ defmodule Starwarx.LaserTest do
   use ExUnit.Case, async: true
 
   alias Starwarx.{Laser, Laser.State}
-  alias Starwarx.Support.Token
 
   setup do
-    id = Token.generate()
+    id = UUID.uuid1()
     position = {600, 750}
     {:ok, pid} = start_supervised({Laser, id: id, position: position})
 
