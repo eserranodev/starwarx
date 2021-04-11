@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule StarwarxWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics

@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule Starwarx.Utils do
   @moduledoc """
   Util set of functions.

@@ -1,6 +1,7 @@
 defmodule StarwarxWeb.SpaceLive do
   use StarwarxWeb, :live_view
 
+  alias Phoenix.LiveView
   alias Starwarx.Enemy.Supervisor, as: EnemySupervisor
   alias Starwarx.Explosion.Supervisor, as: ExplosionSupervisor
   alias Starwarx.Laser.Supervisor, as: LaserSupervisor
@@ -8,7 +9,7 @@ defmodule StarwarxWeb.SpaceLive do
   alias Starwarx.Spaceship
   alias Starwarx.Star.Supervisor, as: StarSupervisor
 
-  @impl true
+  @impl LiveView
   def mount(_params, _session, socket) do
     if connected?(socket), do: schedule_update()
 
@@ -28,7 +29,7 @@ defmodule StarwarxWeb.SpaceLive do
      )}
   end
 
-  @impl true
+  @impl LiveView
   def handle_info(:update, socket) do
     enemies = EnemySupervisor.get_enemies()
     explosions = ExplosionSupervisor.get_explosions()
@@ -48,31 +49,31 @@ defmodule StarwarxWeb.SpaceLive do
      )}
   end
 
-  @impl true
+  @impl LiveView
   def handle_event("key_down", %{"key" => "ArrowUp"}, socket) do
     spaceship = Spaceship.move_up(socket.assigns.spaceship)
     {:noreply, assign(socket, spaceship: spaceship)}
   end
 
-  @impl true
+  @impl LiveView
   def handle_event("key_down", %{"key" => "ArrowDown"}, socket) do
     spaceship = Spaceship.move_down(socket.assigns.spaceship)
     {:noreply, assign(socket, spaceship: spaceship)}
   end
 
-  @impl true
+  @impl LiveView
   def handle_event("key_down", %{"key" => " "}, socket) do
     Spaceship.fire_laser(socket.assigns.spaceship)
     {:noreply, assign(socket, [])}
   end
 
-  @impl true
+  @impl LiveView
   def handle_event("key_down", %{"key" => "Enter"}, socket) do
     Spaceship.fire_missile(socket.assigns.spaceship)
     {:noreply, assign(socket, [])}
   end
 
-  @impl true
+  @impl LiveView
   def handle_event("key_down", _, socket) do
     {:noreply, assign(socket, [])}
   end

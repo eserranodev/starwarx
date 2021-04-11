@@ -3,11 +3,11 @@ defmodule Starwarx.Laser.State do
   Laser state.
   """
 
+  alias __MODULE__
+
   @type id :: String.t()
   @type position :: {integer, integer}
   @type status :: :active | :inactive
-
-  alias __MODULE__
 
   @type t :: %State{
           id: id,

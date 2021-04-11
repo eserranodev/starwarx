@@ -3,13 +3,13 @@ defmodule Starwarx.Missile.State do
   Missile state.
   """
 
+  alias __MODULE__
+
   @type id :: String.t()
   @type position :: {integer, integer}
   @type status :: :active | :inactive
   @type step :: integer
   @type target :: pid | nil
-
-  alias __MODULE__
 
   @type t :: %State{
           id: id,

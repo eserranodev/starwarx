@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule StarwarxWeb.UserSocket do
   use Phoenix.Socket
 

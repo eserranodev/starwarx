@@ -1,3 +1,5 @@
+# credo:disable-for-this-file
+
 defmodule StarwarxWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
