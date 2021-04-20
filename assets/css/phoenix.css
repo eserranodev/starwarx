@@ -14,6 +14,7 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+  background-color: black;
 }
 body {
   color: #000000;
@@ -550,12 +551,26 @@ pre {
 }
 
 .container {
-  margin: 5vw;
-  max-width: 90vw;
-  /* padding: 0 2rem; */
+  padding: 0;
   position: relative;
-  /* width: 100%; */
+  width: 100%;
 }
+.container p {
+  font-family: "Press Start 2P", cursive;
+  text-align: center;
+  margin: 2vw;
+  font-size: 2vw;
+  color: white;
+}
+
+.playground {
+  height: 400px !important;
+  width: 100% !important;
+  background-color: black !important;
+  border-bottom-style: solid;
+  border-bottom-color: red;
+}
+
 select {
   width: auto;
 }

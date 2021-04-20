@@ -27,7 +27,7 @@ config :phoenix, :json_library, Jason
 config :starwarx, :space, width: 1_500, height: 400
 
 # Configures the stars populator
-config :starwarx, Starwarx.Star.Populator, initial_mode: 30, started_mode: 1
+config :starwarx, Starwarx.Star.Populator, initial_mode: 50, started_mode: 1
 
 # Configures the spaceship
 config :starwarx, :spaceship, width: 29, height: 68, initial_position: {100, 200}
