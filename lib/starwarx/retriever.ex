@@ -7,7 +7,6 @@ defmodule Starwarx.Retriever do
   alias Starwarx.Explosion.Supervisor, as: ExplosionSupervisor
   alias Starwarx.Laser.Supervisor, as: LaserSupervisor
   alias Starwarx.Missile.Supervisor, as: MissileSupervisor
-  alias Starwarx.Spaceship
   alias Starwarx.Star.Supervisor, as: StarSupervisor
 
   @type mode :: :initial | :started
@@ -27,7 +26,6 @@ defmodule Starwarx.Retriever do
       fn -> {:explosions, ExplosionSupervisor.get_explosions()} end,
       fn -> {:lasers, LaserSupervisor.get_lasers()} end,
       fn -> {:missiles, MissileSupervisor.get_missiles()} end,
-      fn -> {:spaceship, Spaceship.new()} end,
       fn -> {:stars, StarSupervisor.get_stars()} end
     ]
   end

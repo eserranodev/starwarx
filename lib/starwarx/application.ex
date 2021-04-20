@@ -7,6 +7,8 @@ defmodule Starwarx.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the spaceship process
+      Starwarx.Spaceship,
       # Start the Star supervisor
       Starwarx.Star.Supervisor,
       # Start the Enemy supervisor,

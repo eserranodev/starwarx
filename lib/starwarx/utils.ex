@@ -14,4 +14,6 @@ defmodule Starwarx.Utils do
   def missile_name(id), do: String.to_atom("missile::" <> id)
 
   def star_name(id), do: String.to_atom("star::" <> id)
+
+  def spaceship_name, do: String.to_atom("spaceship")
 end

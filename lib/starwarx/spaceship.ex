@@ -3,27 +3,42 @@ defmodule Starwarx.Spaceship do
   Spaceship.
   """
 
-  alias __MODULE__
-  alias Starwarx.Missile.Supervisor, as: MissileSupervisor
+  use GenServer
 
-  @type position :: {integer, integer}
+  import Starwarx.Utils, only: [spaceship_name: 0]
 
-  @type t :: %Spaceship{
-          position: position
-        }
+  alias __MODULE__.State
 
   @initial_position :starwarx
                     |> Application.compile_env(:spaceship)
                     |> Keyword.fetch!(:initial_position)
+  @time 60
 
-  defstruct [:position]
+  def start_link(_) do
+    id = UUID.uuid1()
 
-  def new, do: %Spaceship{position: @initial_position}
+    GenServer.start_link(__MODULE__, {id, @initial_position}, name: spaceship_name())
+  end
 
-  def move_up(%Spaceship{position: {x, y}} = state), do: %{state | position: {x, y - 5}}
+  @impl GenServer
+  def init({id, position}) do
+    schedule_work()
 
-  def move_down(%Spaceship{position: {x, y}} = state), do: %{state | position: {x, y + 5}}
+    {:ok, State.new(id, position)}
+  end
 
-  def fire_missile(%Spaceship{position: position}, target_id),
-    do: MissileSupervisor.create_missile(position, target_id)
+  @impl GenServer
+  def handle_info(:work, %State{} = state) do
+    schedule_work()
+
+    {:noreply, state}
+  end
+
+  def handle_info(:move_up, %State{} = state) do
+    new_state = State.move_up(state)
+
+    {:noreply, new_state}
+  end
+
+  defp schedule_work, do: Process.send_after(self(), :work, @time)
 end

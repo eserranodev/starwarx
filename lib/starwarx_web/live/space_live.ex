@@ -1,8 +1,10 @@
 defmodule StarwarxWeb.SpaceLive do
   use StarwarxWeb, :live_view
 
+  import Starwarx.Utils, only: [spaceship_name: 0]
+
   alias Phoenix.LiveView
-  alias Starwarx.{Retriever, Spaceship}
+  alias Starwarx.Retriever
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -20,14 +22,18 @@ defmodule StarwarxWeb.SpaceLive do
 
   @impl LiveView
   def handle_event("key_down", %{"key" => "ArrowUp"}, socket) do
-    spaceship = Spaceship.move_up(socket.assigns.spaceship)
-    {:noreply, assign(socket, spaceship: spaceship)}
+    # spaceship = Spaceship.move_up(socket.assigns.spaceship)
+    # {:noreply, assign(socket, spaceship: spaceship)}
+    Process.send(spaceship_name(), :move_up, [])
+    {:noreply, assign(socket, [])}
   end
 
   @impl LiveView
   def handle_event("key_down", %{"key" => "ArrowDown"}, socket) do
-    spaceship = Spaceship.move_down(socket.assigns.spaceship)
-    {:noreply, assign(socket, spaceship: spaceship)}
+    # spaceship = Spaceship.move_down(socket.assigns.spaceship)
+    # {:noreply, assign(socket, spaceship: spaceship)}
+    Process.send(spaceship_name(), :move_down, [])
+    {:noreply, assign(socket, [])}
   end
 
   @impl LiveView
@@ -37,7 +43,7 @@ defmodule StarwarxWeb.SpaceLive do
 
   @impl LiveView
   def handle_event("fire_missile", %{"id" => target_id}, socket) do
-    Spaceship.fire_missile(socket.assigns.spaceship, target_id)
+    # Spaceship.fire_missile(socket.assigns.spaceship, target_id)
     {:noreply, assign(socket, [])}
   end
 
