@@ -24,7 +24,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Configures the space
-config :starwarx, :space, width: 1_500, height: 400
+config :starwarx, :space, width: 2_000, height: 400
 
 # Configures the stars populator
 config :starwarx, Starwarx.Star.Populator, initial_mode: 50, started_mode: 1
